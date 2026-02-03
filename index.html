@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Have a Question...</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #fff0f3; margin: 0; overflow: hidden; }
+        .card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 350px; position: relative; }
+        
+        /* Adjusted height to prevent the card from growing/shrinking when text changes */
+        h2 { color: #ff4d6d; min-height: 120px; line-height: 1.4; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; }
+        
+        .buttons { margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 20px; height: 50px; position: relative; }
+        
+        button { padding: 12px 25px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; }
+        
+        #yesBtn { background: #ff4d6d; color: white; position: relative; z-index: 10; }
+        #yesBtn:hover { transform: scale(1.1); }
+
+        #noBtn { 
+            background: #adb5bd; 
+            color: white; 
+            position: absolute; 
+            right: 40px; 
+            transition: 0.1s ease; 
+            z-index: 5;
+        }
+        
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 id="questionText">Will you be my Valentine? 🌹</h2>
+    <div class="buttons">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
+</div>
+
+<script>
+    const questionText = document.getElementById('questionText');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+
+    let stage = 1;
+
+    // --- RUNAWAY LOGIC ---
+    const moveButton = () => {
+        noBtn.style.position = 'fixed';
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+    };
+
+    noBtn.addEventListener('mouseover', moveButton);
+    noBtn.addEventListener('touchstart', (e) => { 
+        e.preventDefault(); 
+        moveButton(); 
+    });
+
+    // --- PROGRESSION LOGIC ---
+    yesBtn.addEventListener('click', () => {
+         if (stage === 1) {
+            questionText.innerText = "Okay, then how about I call you, and we just gossip? Let's make it a video call, it's been ages since I saw you, might have forgotten how you look 😜";
+            noBtn.classList.add('hidden'); // The "No" button disappears for good here
+            stage = 2;
+        }
+        else if (stage === 2) {
+            questionText.innerText = "Yay! It's a date! Love Love ❤️";
+            yesBtn.classList.add('hidden');
+        }
+    });
+</script>
+
+</body>
+</html>
